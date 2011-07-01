@@ -341,6 +341,11 @@ void IcqContact::setStatus(const Status &status)
 		d->awaySince = QDateTime();
 		d->regTime = QDateTime();
 	}
+
+	if (status.subtype() != previous.subtype() || status.text() != previous.text()) {
+		NotificationRequest request(this, status, previous);
+		request.send();
+	}
 	emit statusChanged(status, previous);
 }
 
